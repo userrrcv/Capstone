@@ -17,5 +17,5 @@ result = df[["fecha", "demanda"]].copy()
 
 result.to_csv(OUTPUT_FILE, index=False, encoding="utf-8")
 
-print(f"✅ Archivo generado: {OUTPUT_FILE} — {len(result)} períodos")
+print(f"Archivo generado: {OUTPUT_FILE} — {len(result)} períodos")
 print(result.to_string(index=False))
