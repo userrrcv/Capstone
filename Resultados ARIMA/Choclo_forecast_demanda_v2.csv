@@ -1,4 +1,4 @@
-fecha,demanda_predicha,limite_inferior,limite_superior
+Date,Demand Prediction,Inferior Limit,Superior Limit
 2026-03-01,5259.0,3238.0,8543.0
 2026-04-01,5417.0,3334.0,8801.0
 2026-05-01,5525.0,3399.0,8981.0

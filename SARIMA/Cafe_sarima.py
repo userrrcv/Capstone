@@ -161,16 +161,16 @@ mae  = mean_absolute_error(test["demanda"], pred_orig)
 rmse = np.sqrt(mean_squared_error(test["demanda"], pred_orig))
 mape = (np.abs((test["demanda"].values - pred_orig.values) / test["demanda"].values) * 100).mean()
 
-print(f"\n── Métricas en test ({N_TEST} meses) ──")
+print(f"\n── Metrics tested in ({N_TEST} months) ──")
 print(f"  MAE  : {mae:.1f}")
 print(f"  RMSE : {rmse:.1f}")
-print(f"  MAPE : {mape:.1f}%  {'Bueno < 15%' if mape < 15 else 'Malo > 15%'}")
+print(f"  MAPE : {mape:.1f}%  {'good < 15%' if mape < 15 else 'bad > 15%'}")
 
 comparacion = test[["fecha", "demanda"]].copy().reset_index(drop=True)
 comparacion["prediccion"] = pred_orig.values.round(0)
 comparacion["error_%"]    = ((comparacion["demanda"] - comparacion["prediccion"]).abs()
                               / comparacion["demanda"] * 100).round(1)
-print("\n── Detalle mes a mes ──")
+print("\n── Details Months──")
 print(comparacion.to_string(index=False))
 
 
@@ -206,7 +206,7 @@ df_forecast = pd.DataFrame({
     "limite_superior":  ci_sup.values.round(0),
 })
 
-print("\n── Predicción próximos 6 meses ──")
+print("\n── 6 Months future Prediction ──")
 print(df_forecast.to_string(index=False))
 df_forecast.to_csv(r"C:\Users\tamar\Documents\Capstone\Resultados ARIMA\Cafe_forecast_demanda_v2.csv", index=False)
 print("\nPredicción guardada en forecast_demanda_v2.csv")
@@ -217,34 +217,34 @@ print("\nPredicción guardada en forecast_demanda_v2.csv")
 fig, axes = plt.subplots(2, 1, figsize=(14, 10))
 
 ax1 = axes[0]
-ax1.plot(df["fecha"], df["demanda"], label="Demanda original", color="#94a3b8", linewidth=1.5, linestyle="--")
-ax1.plot(df["fecha"], df["demanda_w"], label="Demanda corregida (winsorización IQR)", color="#2563eb", linewidth=2)
+ax1.plot(df["fecha"], df["demanda"], label="Original Demand", color="#94a3b8", linewidth=1.5, linestyle="--")
+ax1.plot(df["fecha"], df["demanda_w"], label="Adjusted Demand (winsorización IQR)", color="#2563eb", linewidth=2)
 if len(outliers):
     ax1.scatter(outliers["fecha"], outliers["demanda"], color="#ef4444", zorder=5, s=70, label="Outliers")
-ax1.axhline(y=limite_sup, color="#ef4444", linestyle=":", alpha=0.5, linewidth=1, label=f"Límite sup. IQR ({limite_sup:.0f})")
-ax1.set_title("Tratamiento de Outliers (winsorización IQR)", fontsize=12, fontweight="bold")
-ax1.set_ylabel("Demanda")
+ax1.axhline(y=limite_sup, color="#ef4444", linestyle=":", alpha=0.5, linewidth=1, label=f"Sup Limit. IQR ({limite_sup:.0f})")
+ax1.set_title("Outliers (IQR)", fontsize=12, fontweight="bold")
+ax1.set_ylabel("Demand")
 ax1.legend(fontsize=9)
 ax1.grid(True, alpha=0.3)
 
 ax2 = axes[1]
-ax2.plot(df["fecha"], df["demanda"], label="Histórico real", color="#2563eb", linewidth=2)
+ax2.plot(df["fecha"], df["demanda"], label="Historical data", color="#2563eb", linewidth=2)
 
 fitted_orig = np.expm1(modelo_full.fittedvalues).clip(lower=0)
-ax2.plot(df["fecha"], fitted_orig, label="Ajuste modelo (train)", color="#a855f7",
+ax2.plot(df["fecha"], fitted_orig, label="model ajusted (train)", color="#a855f7",
          linewidth=1.2, linestyle="--", alpha=0.7)
 
 ax2.plot(test["fecha"], pred_orig.values, label=f"Pred. test  MAPE {mape:.1f}%",
          color="#f59e0b", linestyle="--", linewidth=2, marker="o", markersize=6)
-ax2.plot(df_forecast["fecha"], df_forecast["demanda_predicha"], label="Forecast 6 meses",
+ax2.plot(df_forecast["fecha"], df_forecast["demanda_predicha"], label="Forecast 6 months",
          color="#10b981", linestyle="--", linewidth=2, marker="o", markersize=6)
 ax2.fill_between(fechas_futuras, df_forecast["limite_inferior"], df_forecast["limite_superior"],
-                 alpha=0.2, color="#10b981", label="Intervalo confianza 95%")
-ax2.axvline(x=test["fecha"].iloc[0], color="gray", linestyle=":", linewidth=1.5, label="Inicio test")
+                 alpha=0.2, color="#10b981", label="Confident interval 95%")
+ax2.axvline(x=test["fecha"].iloc[0], color="gray", linestyle=":", linewidth=1.5, label="test beginning")
 
 ax2.set_title(f"SARIMA{ORDER}x{SEASONAL_ORDER} + log transform — Cafe", fontsize=12, fontweight="bold")
-ax2.set_xlabel("Fecha")
-ax2.set_ylabel("Demanda")
+ax2.set_xlabel("Date")
+ax2.set_ylabel("Demand")
 ax2.legend(fontsize=9)
 ax2.grid(True, alpha=0.3)
 
