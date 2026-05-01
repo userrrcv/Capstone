@@ -125,7 +125,7 @@ def sarima_grid_search(
     if verbose:
         print(f"\n── Top 5 combinaciones ({criterio}) ──")
         print(df_res.head(5).to_string(index=False))
-        print(f"\n✅ Mejor → ORDER={mejor['order']}  SEASONAL={mejor['seasonal_order']}"
+        print(f"\n Mejor → ORDER={mejor['order']}  SEASONAL={mejor['seasonal_order']}"
               f"  {criterio.upper()}={mejor['score']:.2f}")
 
     return mejor["order"], mejor["seasonal_order"], df_res
