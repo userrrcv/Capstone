@@ -1,0 +1,7 @@
+nombre,frecuencia,caso,SMAPE,MAE,RMSE,Bias,R2,n
+Caso 3 Mensual,Mensual,Caso 3,28.9,1064.9,1288.7,-334.7,0.525,26
+Caso 2 Mensual,Mensual,Caso 2,29.03,1094.3,1279.3,-326.6,0.542,26
+Caso 1 Mensual,Mensual,Caso 1,29.77,1116.4,1324.0,-348.7,0.51,26
+Caso 2 Semanal,Semanal,Caso 2,43.64,359.8,528.9,-38.0,0.756,108
+Caso 3 Semanal,Semanal,Caso 3,47.13,291.9,418.9,-4.3,0.828,165
+Caso 1 Semanal,Semanal,Caso 1,53.9,287.7,407.9,3.0,0.843,165
